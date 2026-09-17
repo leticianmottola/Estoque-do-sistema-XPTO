@@ -13,9 +13,12 @@ int main()
     else 
     {
         printf("Abriu o arquivo.");
+        char item[40];
+        int quantidade;
         while(feof(estoque) == 0) 
         {
-            fscanf(arquivo, "%d%d", &a, &b);
+            fscanf(estoque, "%s", item);
+            fscanf(estoque, "%d", &quantidade);
         }
         fclose(estoque);
     }
