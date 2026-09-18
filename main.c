@@ -93,22 +93,89 @@ int main()
                 break;
                 
             case 2:
-                // Aqui entrará a lógica de adicionar produtos no array no futuro
-                printf("\n[Em construcao] Voce escolheu adicionar itens.\n");
+                printf("\n--- ADICIONAR NOVO ITEM ---\n");
+                if (totalLidos >= MAXIMO_PRODUTOS) 
+                {
+                    printf("ERRO: O estoque está cheio! Limite de %d atingido.\n", MAXIMO_PRODUTOS);
+                } 
+                else 
+                {
+                    printf("Digite o código do produto: ");
+                    scanf("%d", &catalogo[totalLidos].codigo);
+                    
+                    printf("Digite a quantidade: ");
+                    scanf("%d", &catalogo[totalLidos].quantidade);
+                    
+                    printf("Digite o preço (use ponto, ex: 10.50): ");
+                    scanf("%f", &catalogo[totalLidos].preco);
+                    
+                    printf("Digite o nome do produto (sem espaços, apenas com underline): ");
+                    scanf("%s", catalogo[totalLidos].nome); 
+                    
+                    totalLidos++; // -> Aumenta o contador de produtos cadastrados
+                    printf("-> Produto adicionado com sucesso!\n");
+                }
                 break;
                 
             case 3:
-                // Aqui entrará a lógica de remover produtos do array no futuro
-                printf("\n[Em construcao] Voce escolheu remover itens.\n");
+                printf("\n--- REMOVER ITEM ---\n");
+                int codigoRemover, i, j;
+                int encontrado = 0; 
+                
+                printf("Digite o código/id do produto que deseja remover: ");
+                scanf("%d", &codigoRemover);
+
+                for (i = 0; i < totalLidos; i++) 
+                {
+                    if (catalogo[i].codigo == codigoRemover) 
+                    {
+                        encontrado = 1;
+                        
+                        for (j = i; j < totalLidos - 1; j++) 
+                        {
+                            catalogo[j] = catalogo[j + 1];
+                        }
+                        
+                        totalLidos--; // -> Diminui o total de produtos cadastrados
+                        printf("-> Produto removido com sucesso!\n");
+                        break; 
+                    }
+                }
+                
+                if (encontrado == 0) 
+                {
+                    printf("-> Produto com código %d não encontrado. Tente novamente.\n", codigoRemover);
+                }
                 break;
                 
             case 0:
-                printf("\nSaindo do sistema.\n");
+                printf("\nSalvando alterações no banco de dados...\n");
+                
+                FILE *arquivoSaida = fopen(ARQUIVO_ESTOQUE, "w");
+                
+                if (arquivoSaida != NULL) 
+                {
+                    for (int k = 0; k < totalLidos; k++) 
+                    {
+                        fprintf(arquivoSaida, "%d %d %.2f %s\n", 
+                                catalogo[k].codigo, 
+                                catalogo[k].quantidade, 
+                                catalogo[k].preco, 
+                                catalogo[k].nome);
+                    }
+                    fclose(arquivoSaida);
+                    printf("-> Dados salvos com sucesso!\n");
+                } 
+                else 
+                {
+                    printf("ERRO: Não foi possivel salvar no arquivo.\n");
+                }
+                
+                printf("Saindo do sistema.\n");
                 break;
                 
             default:
-                // Se o usuário digitar 4, 5, 99...
-                printf("\nOpção inválida! Tente novamente.\n");
+                printf("\nERRO: Opção inválida! Tente novamente.\n");
                 break;
         }
 
