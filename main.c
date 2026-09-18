@@ -35,7 +35,7 @@ int main()
                 &catalogo[totalLidos].codigo,
                 &catalogo[totalLidos].quantidade,
                 &catalogo[totalLidos].preco,
-                &catalogo[totalLidos].nome) == 4)
+                catalogo[totalLidos].nome) == 4)
 
     {
         totalLidos++; // -> Leitura do produto com êxito.
@@ -54,7 +54,7 @@ int main()
 
     for (int i = 0; i < totalLidos; i++) 
     {
-        printf("Codigo: %d | Produto: %s | Qtd: %d | Preco: R$ %.2f\n", 
+        printf("Codigo: %d | Produto: %s | Quantidade: %d | Preço: R$ %.2f\n", 
                catalogo[i].codigo, 
                catalogo[i].nome, 
                catalogo[i].quantidade, 
