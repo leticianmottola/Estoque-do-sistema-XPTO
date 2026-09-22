@@ -136,14 +136,14 @@ int main()
                         }
                         
                         totalLidos--; // -> Redução de número de produtos.
-                        printf("-> Produto removido com sucesso!\n");
+                        printf("== > Produto removido com sucesso!\n");
                         break; 
                     }
                 }
                 
                 if (encontrado == 0) // -> Valor booleano para false.
                 {
-                    printf("-> Produto com código %d não encontrado. Tente novamente.\n", codigoRemover);
+                    printf("ERRO: Produto com código %d não encontrado. Tente novamente.\n", codigoRemover);
                 }
                 break;
                 
