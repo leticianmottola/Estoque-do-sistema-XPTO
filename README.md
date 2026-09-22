@@ -1,4 +1,4 @@
-# PROJETO DE SOFTWARE - Estoque de produtos em Linguagem C.
+# **XPTO** - Estoque de produtos em Linguagem C.
 Estoque baseado em licenças de software, pacotes de serviços e assinaturas.
 
 _FOCO: pequenas e médias empresas._
