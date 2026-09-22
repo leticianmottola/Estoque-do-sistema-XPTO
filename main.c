@@ -2,15 +2,15 @@
 #include <locale.h>
 
 // !! CONSTANTES !!
-#define MAXIMO_PRODUTOS 100
+#define MAXIMO_PRODUTOS 80
 #define MAXIMO_NOME 50
 #define ARQUIVO_ESTOQUE "storage.txt"
 
-// !! STRUCT [molde do produto]!!
+// !! STRUCT [molde do produto] !!
 typedef struct {
     int codigo;
     int quantidade;
-    float preco;
+    float valor;
     char nome[MAXIMO_NOME];
 } Produto; // -> Criação do apelido "Produto" para o tipo de dado "struct".
 
@@ -39,7 +39,7 @@ int main()
     while(fscanf(estoque,"%d %d %f %s",
                 &catalogo[totalLidos].codigo,
                 &catalogo[totalLidos].quantidade,
-                &catalogo[totalLidos].preco,
+                &catalogo[totalLidos].valor,
                 catalogo[totalLidos].nome) == 4)
 
     {
@@ -61,7 +61,7 @@ int main()
     printf("%-35s %-35s\n", "MARCO AGUILAR MANI", "MARCOS VINICIUS PEREIRA DA SILVA");
     printf("%-35s\n", "VITOR TAMARINDO DE SOUZA");
     printf("======================================================================\n");
-    printf("\nBem vindo ao sistema de controle de estoque da XPTO!\n");
+    printf("\nSeja bem-vindo ao sistema de controle de estoque da XPTO!\n");
 
     // !! MENU INTERATIVO EM LOOP !!
     do 
@@ -77,7 +77,7 @@ int main()
         
         scanf("%d", &opcao);
 
-        // !! ESTRUTURA DE DECISÃO + EXIBIÇÃO DOS PRODUTOS ARMAZENADOS!!
+        // !! ESTRUTURA DE DECISÃO + EXIBIÇÃO DOS PRODUTOS ARMAZENADOS NO SISTEMA !!
 
         switch (opcao) 
         {
@@ -86,9 +86,8 @@ int main()
                 printf("Total de itens cadastrados: %d\n\n", totalLidos);
                 for (int i = 0; i < totalLidos; i++) 
                 {
-                    printf("Código: %d | Produto: %s | Qtd: %d | Preco: R$ %.2f\n", 
-                           catalogo[i].codigo, catalogo[i].nome, 
-                           catalogo[i].quantidade, catalogo[i].preco);
+                    printf("Código: %d | Produto: %s | Qtd: %d | Preço: R$ %.2f\n", 
+                           catalogo[i].codigo, catalogo[i].nome, catalogo[i].quantidade, catalogo[i].valor);
                 }
                 break;
                 
@@ -103,17 +102,17 @@ int main()
                     printf("Digite o código do produto: ");
                     scanf("%d", &catalogo[totalLidos].codigo);
                     
-                    printf("Digite a quantidade: ");
+                    printf("Digite a quantidade desejada: ");
                     scanf("%d", &catalogo[totalLidos].quantidade);
                     
-                    printf("Digite o preço (use ponto, ex: 10.50): ");
-                    scanf("%f", &catalogo[totalLidos].preco);
+                    printf("Digite o valor do produto (decimal, ex: 10.50): ");
+                    scanf("%f", &catalogo[totalLidos].valor);
                     
                     printf("Digite o nome do produto (sem espaços, apenas com underline): ");
                     scanf("%s", catalogo[totalLidos].nome); 
                     
-                    totalLidos++; // -> Aumenta o contador de produtos cadastrados
-                    printf("-> Produto adicionado com sucesso!\n");
+                    totalLidos++; // -> Contador de produtos cadastrados; adiciona mais um devido a inclusão do novo produto.
+                    printf("== > Produto adicionado com sucesso!\n");
                 }
                 break;
                 
@@ -129,20 +128,20 @@ int main()
                 {
                     if (catalogo[i].codigo == codigoRemover) 
                     {
-                        encontrado = 1;
+                        encontrado = 1; // -> Valor booleano para true.
                         
-                        for (j = i; j < totalLidos - 1; j++) 
+                        for (j = i; j < totalLidos - 1; j++)  // -> Sistema de remoção do produto.
                         {
                             catalogo[j] = catalogo[j + 1];
                         }
                         
-                        totalLidos--; // -> Diminui o total de produtos cadastrados
+                        totalLidos--; // -> Redução de número de produtos.
                         printf("-> Produto removido com sucesso!\n");
                         break; 
                     }
                 }
                 
-                if (encontrado == 0) 
+                if (encontrado == 0) // -> Valor booleano para false.
                 {
                     printf("-> Produto com código %d não encontrado. Tente novamente.\n", codigoRemover);
                 }
@@ -151,7 +150,7 @@ int main()
             case 0:
                 printf("\nSalvando alterações no banco de dados...\n");
                 
-                FILE *arquivoSaida = fopen(ARQUIVO_ESTOQUE, "w");
+                FILE *arquivoSaida = fopen(ARQUIVO_ESTOQUE, "w"); // -> O "w" representa que o arquivo está sendo "sobrescrito"; para que as alterações realizadas sejam salvas.
                 
                 if (arquivoSaida != NULL) 
                 {
@@ -160,11 +159,11 @@ int main()
                         fprintf(arquivoSaida, "%d %d %.2f %s\n", 
                                 catalogo[k].codigo, 
                                 catalogo[k].quantidade, 
-                                catalogo[k].preco, 
+                                catalogo[k].valor, 
                                 catalogo[k].nome);
                     }
                     fclose(arquivoSaida);
-                    printf("-> Dados salvos com sucesso!\n");
+                    printf("== > Dados salvos com sucesso!\n");
                 } 
                 else 
                 {
@@ -179,7 +178,7 @@ int main()
                 break;
         }
 
-    } while (opcao != 0); // O loop repete até o usuário digitar 0
+    } while (opcao != 0); // Completa o loop, repetindo-o, até o usuário apertar no 0.
 
     return 0;
 }
