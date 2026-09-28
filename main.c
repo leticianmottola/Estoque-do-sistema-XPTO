@@ -1,12 +1,36 @@
+/*
+ =============== SISTEMA DE ESTOQUE || XPTO =================
+
+ * | DISCIPLINA: Projeto de Desenvolvimento de Software
+ * | LINGUAGEM: C
+ * --------------------------------------------------------
+ * | MEMBROS DA EQUIPE:
+ * - EVELYN PIO DA SILVA
+ * - FELIPE FIUZA DO NASCIMENTO
+ * - JEFFERSON DA SILVA SANTOS
+ * - LETICIA NUNES MOTTOLA
+ * - MARCO AGUILAR MANI
+ * - MARCOS VINICIUS PEREIRA DA SILVA
+ * - VITOR TAMARINDO DE SOUZA 
+ * -------------------------------------------------------
+ * | SOBRE:
+ * Sistema com controle de estoque de produtos cadastrados XPTO.
+ * Constitui-se em um menu interativo, o qual o usuário é capaz 
+ * de listar os produtos armazenados no estoque, adicionar e 
+ * remover produtos; controle realizado por meio de structs.
+
+=============================================================
+*/
+
 #include <stdio.h>
 #include <locale.h>
 
-// !! CONSTANTES !!
+//===================== || CONSTANTES || ==========================
 #define MAXIMO_PRODUTOS 80
 #define MAXIMO_NOME 50
 #define ARQUIVO_ESTOQUE "storage.txt"
 
-// !! STRUCT [molde do produto] !!
+// =================== || STRUCT [MOLDE] || =======================
 typedef struct {
     int codigo;
     int quantidade;
@@ -14,28 +38,28 @@ typedef struct {
     char nome[MAXIMO_NOME];
 } Produto; // -> Criação do apelido "Produto" para o tipo de dado "struct".
 
-
+// =================== || FUNÇÃO PRINCIPAL || =====================
 int main()
 {
     setlocale(LC_ALL, "Portuguese_Brazil");
 
-    FILE *estoque; //-> Aponta aonde o arquivo está guardado na memória.
+    FILE *estoque;
 
     //!! ARRAY DE STRUCTS !!
     Produto catalogo[MAXIMO_PRODUTOS];
-    int totalLidos = 0; // -> Contagem de quantos produtos existem no arquivo.
-    int opcao; // -> Escolha do usuário no menu interativo.
+    int totalLidos = 0; 
+    int opcao; 
 
 
-    estoque = fopen(ARQUIVO_ESTOQUE, "r"); // -> Função chamada para abrir o arquivo "storage.txt". O "r" demonstra apenas a leitura deste arquivo.
+    estoque = fopen(ARQUIVO_ESTOQUE, "r"); 
 
-    if (estoque == NULL)  // -> Trava de segurança.
+    if (estoque == NULL) 
     {
         printf("Erro ao abrir o arquivo %s.\n", ARQUIVO_ESTOQUE);
-        return 1; // -> Encerra o programa.
+        return 1;
     }
 
-    // !! LEITURA DO ARQUIVO DIRETO PARA O STRUCT !!
+// =================== || LEITURA DO ARQUIVO || =====================
     while(fscanf(estoque,"%d %d %f %s",
                 &catalogo[totalLidos].codigo,
                 &catalogo[totalLidos].quantidade,
@@ -43,7 +67,7 @@ int main()
                 catalogo[totalLidos].nome) == 4)
 
     {
-        totalLidos++; // -> Leitura do produto com êxito.
+        totalLidos++;
 
         if (totalLidos >= MAXIMO_PRODUTOS) 
         { 
@@ -53,31 +77,28 @@ int main()
     }
     fclose(estoque);
 
-    printf("======================================================================\n");
-    printf("                          MEMBROS DO GRUPO                            \n");
-    printf("======================================================================\n");
-    printf("%-35s %-35s\n", "EVELYN PIO DA SILVA", "FELIPE FIUZA DO NASCIMENTO");
-    printf("%-35s %-35s\n", "JEFFERSON DA SILVA SANTOS", "LETICIA NUNES MOTTOLA");
-    printf("%-35s %-35s\n", "MARCO AGUILAR MANI", "MARCOS VINICIUS PEREIRA DA SILVA");
-    printf("%-35s\n", "VITOR TAMARINDO DE SOUZA");
-    printf("======================================================================\n");
-    printf("\nSeja bem-vindo ao sistema de controle de estoque da XPTO!\n");
+// ================== || SISTEMA XPTO || =========================
+    printf("\n================================================\n");
+    printf("                XPTO TECNOLOGIAS                \n");
+    printf("================================================\n");
+    printf("\n  SEJA BEM-VINDO AO SISTEMA DE ESTOQUE XPTO!\n\n");
+    printf("    QUAL OPERAÇÃO DEVEMOS REALIZAR HOJE? \n\n"); 
 
-    // !! MENU INTERATIVO EM LOOP !!
+// =================== || MENU INTERATIVO || =====================
     do 
     {
         printf("\n===================================\n");
         printf("Selecione uma operação:\n");
-        printf("1 - Listar itens\n");
-        printf("2 - Adicionar itens\n");
-        printf("3 - Remover itens\n");
-        printf("0 - Sair\n");
+        printf("[1] - LISTAR ITENS\n");
+        printf("[2] - ADICIONAR ITENS\n");
+        printf("[3] - REMOVER ITENS\n");
+        printf("[0] - SAIR\n");
         printf("===================================\n");
-        printf("Opção desejada: ");
+        printf("OPÇÃO ESCOLHIDA: ");
         
         scanf("%d", &opcao);
 
-        // !! ESTRUTURA DE DECISÃO + EXIBIÇÃO DOS PRODUTOS ARMAZENADOS NO SISTEMA !!
+// ========== || ESTRUTURA DE DECISÃO + EXIBIÇÃO || ==============
 
         switch (opcao) 
         {
@@ -95,7 +116,7 @@ int main()
                 printf("\n--- ADICIONAR NOVO ITEM ---\n");
                 if (totalLidos >= MAXIMO_PRODUTOS) 
                 {
-                    printf("ERRO: O estoque está cheio! Limite de %d atingido.\n", MAXIMO_PRODUTOS);
+                    printf("[ERRO]: O estoque está cheio! Limite de %d atingido.\n", MAXIMO_PRODUTOS);
                 } 
                 else 
                 {
@@ -112,7 +133,7 @@ int main()
                     scanf("%s", catalogo[totalLidos].nome); 
                     
                     totalLidos++; // -> Contador de produtos cadastrados; adiciona mais um devido a inclusão do novo produto.
-                    printf("== > Produto adicionado com sucesso!\n");
+                    printf("[SUCESSO]: Produto adicionado com sucesso!\n");
                 }
                 break;
                 
@@ -121,29 +142,29 @@ int main()
                 int codigoRemover, i, j;
                 int encontrado = 0; 
                 
-                printf("Digite o código/id do produto que deseja remover: ");
+                printf("Digite o código do produto que deseja remover: ");
                 scanf("%d", &codigoRemover);
 
                 for (i = 0; i < totalLidos; i++) 
                 {
                     if (catalogo[i].codigo == codigoRemover) 
                     {
-                        encontrado = 1; // -> Valor booleano para true.
+                        encontrado = 1;
                         
-                        for (j = i; j < totalLidos - 1; j++)  // -> Sistema de remoção do produto.
+                        for (j = i; j < totalLidos - 1; j++) 
                         {
                             catalogo[j] = catalogo[j + 1];
                         }
                         
-                        totalLidos--; // -> Redução de número de produtos.
-                        printf("== > Produto removido com sucesso!\n");
+                        totalLidos--; 
+                        printf("[SUCESSO]: Produto removido com sucesso!\n");
                         break; 
                     }
                 }
                 
-                if (encontrado == 0) // -> Valor booleano para false.
+                if (encontrado == 0) // 
                 {
-                    printf("ERRO: Produto com código %d não encontrado. Tente novamente.\n", codigoRemover);
+                    printf("[ERRO]: Produto com código %d não encontrado. Tente novamente.\n", codigoRemover);
                 }
                 break;
                 
@@ -163,22 +184,22 @@ int main()
                                 catalogo[k].nome);
                     }
                     fclose(arquivoSaida);
-                    printf("== > Dados salvos com sucesso!\n");
+                    printf("[SUCESSO]: Dados salvos com sucesso!\n");
                 } 
                 else 
                 {
-                    printf("ERRO: Não foi possivel salvar no arquivo.\n");
+                    printf("[ERRO]: Não foi possivel salvar no arquivo.\n");
                 }
                 
                 printf("Saindo do sistema.\n");
                 break;
                 
             default:
-                printf("\nERRO: Opção inválida! Tente novamente.\n");
+                printf("\n[ERRO]: Opção inválida! Tente novamente.\n");
                 break;
         }
 
-    } while (opcao != 0); // Completa o loop, repetindo-o, até o usuário apertar no 0.
+    } while (opcao != 0);
 
     return 0;
 }
