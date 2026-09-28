@@ -87,13 +87,13 @@ int main()
 // =================== || MENU INTERATIVO || =====================
     do 
     {
-        printf("\n===================================\n");
+        printf("\n=========================================\n");
         printf("Selecione uma operação:\n");
         printf("[1] - LISTAR ITENS\n");
         printf("[2] - ADICIONAR ITENS\n");
         printf("[3] - REMOVER ITENS\n");
         printf("[0] - SAIR\n");
-        printf("===================================\n");
+        printf("===========================================\n");
         printf("OPÇÃO ESCOLHIDA: ");
         
         scanf("%d", &opcao);
