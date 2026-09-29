@@ -29,7 +29,7 @@ Serviços de tecnologia disponíveis para venda.
 Para operar no terminal, basta utilizar:
 
 ```bash
-  gcc main.c -o estoque
+  gcc sistema.c -o estoque
 ```
 Após isso, é necessário digitar no terminal o seguinte comando:
 ```bash
